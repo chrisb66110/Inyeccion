@@ -1,0 +1,11 @@
+﻿Delete from Usuarios;
+Insert Usuarios values ('Usuario 01','123', 1);
+Insert Usuarios values ('Usuario 02','123', 1);
+Insert Usuarios values ('Usuario 03','123', 1);
+Insert Usuarios values ('Usuario 04','123', 1);
+Insert Usuarios values ('Usuario 05','123', 1);
+Insert Usuarios values ('Usuario 06','123', 0);
+Insert Usuarios values ('Usuario 07','123', 0);
+Insert Usuarios values ('Usuario 08','123', 0);
+Insert Usuarios values ('Usuario 09','123', 0);
+Insert Usuarios values ('Usuario 10','123', 0);
