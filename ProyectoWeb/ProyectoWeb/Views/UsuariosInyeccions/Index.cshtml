@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ProyectoWeb.Models.UsuariosInyeccion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<form action="/UsuariosInyeccions/Index" method="post">
+    <input type="text" id="buscar" name="buscar" placeholder="Texto a buscar" />
+    <input type="submit" value="Buscar" />
+</form>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contrasenna)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contrasenna)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Usuario }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Usuario }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Usuario })
+            </td>
+        </tr>
+    }
+
+</table>

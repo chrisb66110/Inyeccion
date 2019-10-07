@@ -2,39 +2,36 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProyectoWeb.Models;
+using System.Data.SqlClient;
 
 namespace ProyectoWeb.Controllers
 {
-    public class UsuariosController : Controller
+    public class UsuariosInyeccionsController : Controller
     {
         private ProyectoBDEntities db = new ProyectoBDEntities();
 
-        //Get para cuando entra a index la primera vez
-        [HttpGet]
+        // GET: UsuariosInyeccions
         public ActionResult Index()
         {
-            //Filtrado de los usuarios que se puede mostrar
-            List<Usuario> usuariosValidos = db.Usuarios.Where(x => x.Mostrar==true).ToList();
-            return View(usuariosValidos);
+            return View(db.UsuariosInyeccions.Where(x => x.Mostrar == true).ToList());
         }
 
         //Post para hacer busqueda de usuarios por el nombre de usuario
         [HttpPost]
         public ActionResult Index(string buscar)
         {
-            
+
             //Conexion con la bd
-            string cs = @"Data Source=DESKTOP-SBA28J1\SQLEXPRESS; Initial Catalog = ProyectoBD; Integrated Security = True";
+            string cs = @"Server=10.1.4.55;Database=DB_CARNE;User Id=CARNE;Password=CONTRASENNA;";
             SqlConnection Con = new SqlConnection(cs);
 
             //Lista de usuarios a retornar
-            List<Usuario> usuarios = new List<Usuario>();
+            List<UsuariosInyeccion> usuarios = new List<UsuariosInyeccion>();
             try
             {
                 //Hacer la conexion
@@ -45,9 +42,9 @@ namespace ProyectoWeb.Controllers
 
                 if (buscar != null)
                 {
-                    sql = "Select * from Usuarios where Usuario like '%" + buscar + "%' AND Mostrar = 1";
+                    sql = "Select * from UsuariosInyeccion where Usuario like '%" + buscar + "%' AND Mostrar = 1";
                     //La siguiente line ayuda a evitar la inyeccion, pues pone los parametros como literales
-                    //sql = "Select * from Usuarios where Usuario like @Buscar AND Mostrar = 1";
+                    //sql = "Select * from UsuariosInyeccion where Usuario like @Buscar AND Mostrar = 1";
                 }
 
                 //Se carga la consulta
@@ -61,9 +58,9 @@ namespace ProyectoWeb.Controllers
                 //Se hace la lista de usuarios a retornar
                 while (rdr.Read())
                 {
-                    usuarios.Add(new Usuario()
+                    usuarios.Add(new UsuariosInyeccion()
                     {
-                        Usuario1 = rdr.GetString(rdr.GetOrdinal("Usuario")),
+                        Usuario = rdr.GetString(rdr.GetOrdinal("Usuario")),
                         Contrasenna = rdr.GetString(rdr.GetOrdinal("Contrasenna"))
                     });
                 }
@@ -76,101 +73,101 @@ namespace ProyectoWeb.Controllers
                 //Se cierra la conexion
                 Con.Close();
             }
-            
+
             return View(usuarios);
         }
 
-        // GET: Usuarios/Details/5
+        // GET: UsuariosInyeccions/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            UsuariosInyeccion usuariosInyeccion = db.UsuariosInyeccions.Find(id);
+            if (usuariosInyeccion == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(usuariosInyeccion);
         }
 
-        // GET: Usuarios/Create
+        // GET: UsuariosInyeccions/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: UsuariosInyeccions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Usuario1,Contrasenna,Mostrar")] Usuario usuario)
+        public ActionResult Create([Bind(Include = "Usuario,Contrasenna,Mostrar")] UsuariosInyeccion usuariosInyeccion)
         {
             if (ModelState.IsValid)
             {
-                db.Usuarios.Add(usuario);
+                db.UsuariosInyeccions.Add(usuariosInyeccion);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(usuario);
+            return View(usuariosInyeccion);
         }
 
-        // GET: Usuarios/Edit/5
+        // GET: UsuariosInyeccions/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            UsuariosInyeccion usuariosInyeccion = db.UsuariosInyeccions.Find(id);
+            if (usuariosInyeccion == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(usuariosInyeccion);
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: UsuariosInyeccions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Usuario1,Contrasenna,Mostrar")] Usuario usuario)
+        public ActionResult Edit([Bind(Include = "Usuario,Contrasenna,Mostrar")] UsuariosInyeccion usuariosInyeccion)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
+                db.Entry(usuariosInyeccion).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(usuario);
+            return View(usuariosInyeccion);
         }
 
-        // GET: Usuarios/Delete/5
+        // GET: UsuariosInyeccions/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            UsuariosInyeccion usuariosInyeccion = db.UsuariosInyeccions.Find(id);
+            if (usuariosInyeccion == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(usuariosInyeccion);
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: UsuariosInyeccions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuario);
+            UsuariosInyeccion usuariosInyeccion = db.UsuariosInyeccions.Find(id);
+            db.UsuariosInyeccions.Remove(usuariosInyeccion);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

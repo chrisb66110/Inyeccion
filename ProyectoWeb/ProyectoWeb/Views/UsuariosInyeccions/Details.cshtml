@@ -1,4 +1,4 @@
-﻿@model ProyectoWeb.Models.Usuario
+﻿@model ProyectoWeb.Models.UsuariosInyeccion
 
 @{
     ViewBag.Title = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Usuario</h4>
+    <h4>UsuariosInyeccion</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,9 +18,17 @@
             @Html.DisplayFor(model => model.Contrasenna)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Mostrar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mostrar)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Usuario1 }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Usuario }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
